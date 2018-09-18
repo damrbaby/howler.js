@@ -279,7 +279,7 @@
       var self = this || Howler;
 
       // Only run this on mobile devices if audio isn't already eanbled.
-      var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|BB10|Silk|Mobi|Chrome/i.test(self._navigator && self._navigator.userAgent);
+      var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|BB10|Silk|Mobi|Chrome|Safari/i.test(self._navigator && self._navigator.userAgent);
       if (self._mobileEnabled || !self.ctx || !isMobile) {
         return;
       }
@@ -1150,6 +1150,11 @@
 
         return self;
       }
+
+      // Make sure the to/from/len values are numbers.
+      from = parseFloat(from);
+      to = parseFloat(to);
+      len = parseFloat(len);
 
       // Set the volume to the start position.
       self.volume(from, id);
@@ -2659,7 +2664,7 @@
               sound._panner.positionY.setValueAtTime(y, Howler.ctx.currentTime);
               sound._panner.positionZ.setValueAtTime(z, Howler.ctx.currentTime);
             } else {
-              sound._panner.setOrientation(x, y, z);
+              sound._panner.setPosition(x, y, z);
             }
           }
 
