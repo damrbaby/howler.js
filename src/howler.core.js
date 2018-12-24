@@ -463,14 +463,19 @@
 
         self._suspendTimer = null;
         self.state = 'suspending';
-        self.ctx.suspend().then(function() {
+
+        var handleSuspension = function() {
           self.state = 'suspended';
 
           if (self._resumeAfterSuspend) {
             delete self._resumeAfterSuspend;
             self._autoResume();
           }
-        });
+        };
+
+        // Either suspension is resolved or rejected (i.e. in case of interrupted state of audio context)
+        // the Howler's 'suspending' state needs to be updated.
+        self.ctx.suspend().then(handleSuspension, handleSuspension);
       }, 30000);
 
       return self;
